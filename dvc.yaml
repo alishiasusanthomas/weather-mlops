@@ -1,0 +1,58 @@
+stages:
+  collect:
+    cmd: python src/collect.py
+    deps:
+      - src/collect.py
+      - params.yaml
+    params:
+      - collect
+    outs:
+      - data/raw/technopark.csv
+      - data/raw/thampanoor.csv
+
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - data/raw/technopark.csv
+      - data/raw/thampanoor.csv
+      - params.yaml
+    params:
+      - preprocess
+    outs:
+      - data/processed/technopark_X_train.npy
+      - data/processed/technopark_y_train.npy
+      - data/processed/technopark_X_test.npy
+      - data/processed/technopark_y_test.npy
+      - data/processed/thampanoor_X_train.npy
+      - data/processed/thampanoor_y_train.npy
+      - data/processed/thampanoor_X_test.npy
+      - data/processed/thampanoor_y_test.npy
+      - models/technopark_scaler.pkl
+      - models/thampanoor_scaler.pkl
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed/technopark_X_train.npy
+      - data/processed/technopark_y_train.npy
+      - data/processed/technopark_X_test.npy
+      - data/processed/technopark_y_test.npy
+      - data/processed/thampanoor_X_train.npy
+      - data/processed/thampanoor_y_train.npy
+      - data/processed/thampanoor_X_test.npy
+      - data/processed/thampanoor_y_test.npy
+      - params.yaml
+    params:
+      - model
+      - preprocess.horizon
+    outs:
+      - models/technopark_model.keras
+      - models/thampanoor_model.keras
+    metrics:
+      - metrics.json:
+          cache: false
+    plots:
+      - version.json:
+          cache: false

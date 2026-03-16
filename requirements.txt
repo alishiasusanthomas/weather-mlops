@@ -1,0 +1,10 @@
+tensorflow
+keras
+scikit-learn
+pandas
+numpy
+requests
+dvc[gdrive]
+streamlit
+plotly
+pyyaml

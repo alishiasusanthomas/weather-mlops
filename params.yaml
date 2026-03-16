@@ -1,0 +1,27 @@
+collect:
+  start_days_ago: 180
+  locations:
+    technopark:
+      lat: 8.5574
+      lon: 76.8800
+    thampanoor:
+      lat: 8.4875
+      lon: 76.9525
+  variables:
+    - temperature_2m
+    - relative_humidity_2m
+    - precipitation
+    - wind_speed_10m
+
+preprocess:
+  window_size: 48
+  horizon: 24
+  test_split: 0.2
+
+model:
+  lstm_units: 64
+  dropout: 0.2
+  epochs: 30
+  patience: 5
+  batch_size: 32
+  learning_rate: 0.001
