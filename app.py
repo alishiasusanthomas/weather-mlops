@@ -33,13 +33,13 @@ df = pd.DataFrame(r.json()["hourly"])
 df["time"] = pd.to_datetime(df["time"])
 
 return df
-```
+
 
 def make_forecast(name, lat, lon):
 try:
 df = fetch_recent_actuals(lat, lon)
 
-```
+
     df["hour"] = df["time"].dt.hour
     df["day_of_week"] = df["time"].dt.dayofweek
 
@@ -67,12 +67,12 @@ df = fetch_recent_actuals(lat, lon)
 except Exception as e:
     st.error(f"Forecast error: {e}")
     return None, None, None
-```
+
 
 def render_tab(name, lat, lon):
 forecast_df, actuals_df, raw_df = make_forecast(name, lat, lon)
 
-```
+
 if forecast_df is None:
     st.warning("Could not generate forecast.")
     return
@@ -98,7 +98,7 @@ col1, col2, col3 = st.columns(3)
 col1.metric("Min", f"{forecast_df['temperature'].min():.1f} °C")
 col2.metric("Max", f"{forecast_df['temperature'].max():.1f} °C")
 col3.metric("Avg", f"{forecast_df['temperature'].mean():.1f} °C")
-```
+
 
 st.title("🌦 Weather Forecast — Thiruvananthapuram")
 
