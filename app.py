@@ -11,8 +11,8 @@ st.set_page_config(page_title="Weather Forecast — Thiruvananthapuram", layout=
 
 @st.cache_data(ttl=3600)
 def fetch_recent_actuals(lat, lon):
-end_date = (datetime.today() - timedelta(days=1)).strftime("%Y-%m-%d")
-start_date = (datetime.today() - timedelta(days=3)).strftime("%Y-%m-%d")
+    end_date = (datetime.today() - timedelta(days=1)).strftime("%Y-%m-%d")
+    start_date = (datetime.today() - timedelta(days=3)).strftime("%Y-%m-%d")
 
 ```
 url = "https://archive-api.open-meteo.com/v1/archive"
