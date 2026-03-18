@@ -1,23 +1,29 @@
 name: Daily ML Pipeline
 
 on:
-  schedule:
-    - cron: "0 1 * * *"
-  workflow_dispatch:
+schedule:
+- cron: '0 3 * * *'
+workflow_dispatch:
 
 jobs:
-  run-pipeline:
-    runs-on: ubuntu-latest
+retrain:
+runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
+steps:
+  - name: Checkout repo
+    uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.10
+  - name: Setup Python
+    uses: actions/setup-python@v4
+    with:
+      python-version: 3.10
 
-      - run: pip install -r requirements.txt
-      - run: pip install dvc
+  - name: Install dependencies
+    run: |
+      pip install -r requirements.txt
+      pip install dvc
 
-      - run: dvc repro
-      - run: dvc push
+  - name: Run pipeline
+    run: |
+      dvc repro
+
