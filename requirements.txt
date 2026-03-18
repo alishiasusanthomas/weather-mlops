@@ -1,10 +1,8 @@
-tensorflow
-keras
-scikit-learn
+streamlit
 pandas
 numpy
+scikit-learn
+tensorflow-cpu
 requests
-dvc[gdrive]
-streamlit
+joblib
 plotly
-pyyaml
