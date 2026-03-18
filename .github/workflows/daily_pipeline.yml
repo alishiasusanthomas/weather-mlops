@@ -1,51 +1,23 @@
-name: Daily Retrain & Deploy
+name: Daily ML Pipeline
 
 on:
   schedule:
-    - cron: "0 1 * * *"   # 01:00 UTC every day
-  workflow_dispatch:        # allow manual trigger
+    - cron: "0 1 * * *"
+  workflow_dispatch:
 
 jobs:
-  retrain:
+  run-pipeline:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
         with:
-          fetch-depth: 0
-          token: ${{ secrets.GIT_TOKEN }}
+          python-version: 3.10
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: pip install dvc
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Configure DVC remote (Google Drive)
-        env:
-          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
-        run: |
-          dvc remote add -d gdrive_remote gdrive://YOUR_GDRIVE_FOLDER_ID
-          dvc remote modify gdrive_remote gdrive_use_service_account true
-          dvc remote modify gdrive_remote --local gdrive_service_account_json_file_path credentials.json
-          echo "$GDRIVE_CREDENTIALS_DATA" | base64 --decode > credentials.json
-
-      - name: Pull DVC artifacts
-        run: dvc pull
-
-      - name: Run DVC pipeline
-        run: dvc repro
-
-      - name: Push new artifacts to DVC remote
-        run: dvc push
-
-      - name: Commit metadata back to repo
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add dvc.lock metrics.json version.json
-          git diff --staged --quiet || git commit -m "chore: auto retrain $(date +'%Y-%m-%d')"
-          git push
+      - run: dvc repro
+      - run: dvc push
