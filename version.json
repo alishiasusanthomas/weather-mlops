@@ -1,9 +1,9 @@
 {
-  "version": "20260621",
-  "trained_on": "2026-06-21 08:05:06",
-  "git_sha": "1709474",
-  "rmse_technopark": 0.0841,
-  "rmse_thampanoor": 0.0976,
-  "mae_technopark": 0.0632,
-  "mae_thampanoor": 0.0749
+  "version": "20260622",
+  "trained_on": "2026-06-22 09:15:42",
+  "git_sha": "3bdc999",
+  "rmse_technopark": 0.0873,
+  "rmse_thampanoor": 0.0913,
+  "mae_technopark": 0.0661,
+  "mae_thampanoor": 0.0702
 }
